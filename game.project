@@ -1,5 +1,5 @@
 [project]
-title = chip-sounds
+title = Chip Sounds Example
 dependencies = 
 
 [library]

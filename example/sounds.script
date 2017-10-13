@@ -1,8 +1,23 @@
-local soundlist = {"bonus_1"}
+local soundlist = {
+	"bonus_1", "bonus_2", "bonus_3", 
+	"boom_1", "boom_2", "boom_3", "boom_4", "boom_5", "boom_6", "boom_7", "boom_8", "boom_9",
+	"bullet_cute_1", "bullet_cute_2", "bullet_cute_3",
+	"change_1", "change_2", "change_3",
+	"die_1", "die_2", "die_3", "die_4", "die_5",
+	"flame_1", "flame_2", "flame_3", "flame_4", "flame_5",
+	"gem_1", "gem_2", "gem_3",
+	"hurt_1", "hurt_2", "hurt_3", 
+	"hurt_cute_1", "hurt_cute_2", "hurt_cute_3",
+	"jump_cute_1", "jump_cute_2", "jump_cute_3",
+	"pause",
+	"stuck_1", "stuck_2", "stuck_3", 
+	"walk_1", "walk_2", "walk_3", "walk_4", "walk_5", "walk_6" 
+	}
 
 
 function init(self)
-	msg.post("/_soundbank#bonus_1", "play_sound", {delay = 1, gain = 0.5})
+	self.timer = 50
+	self.counter = 0
 end
 
 function final(self)
@@ -11,8 +26,17 @@ function final(self)
 end
 
 function update(self, dt)
-	-- Add update code here
-	-- Remove this function if not needed
+	self.timer = self.timer + 1
+	if self.timer >= 50 then
+		if self.counter >= #soundlist then
+			self.counter = 0
+		end
+		self.counter = self.counter + 1
+		label.set_text("/labels#now_playing", "Now Playing: " .. soundlist[self.counter])
+		local sound = "/_soundbank#" .. soundlist[self.counter]
+		msg.post(sound, "play_sound", {delay = 0, gain = 1})
+		self.timer = 0
+	end
 end
 
 function on_message(self, message_id, message, sender)
